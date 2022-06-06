@@ -1,0 +1,35 @@
+require('./Config/bootstrap');
+
+import Vue from 'vue'
+import router from './Config/router'
+import store from './Config/store'
+import Form, {
+  HasError
+} from 'vform'
+import Swal from 'sweetalert2'
+import LaravelVuePagination from 'laravel-vue-pagination'
+import VueTheMask from 'vue-the-mask'
+
+import GeneralMenu from './components/general/Menu'
+import GeneralFooter from './components/general/Footer'
+import Navtop from './components/general/admin/Navtop'
+import Sidebar from './components/general/admin/Sidebar'
+
+window.Vue = Vue;
+window.Form = Form;
+window.Swal = Swal;
+Vue.use(VueTheMask);
+
+Vue.component('general-menu', GeneralMenu)
+Vue.component('general-footer', GeneralFooter)
+Vue.component('side-bar', Sidebar)
+Vue.component('top-nav', Navtop)
+Vue.component('pagination', LaravelVuePagination)
+
+Vue.component(HasError.name, HasError)
+
+const app = new Vue({
+  el: '#app',
+  router,
+  store,
+})

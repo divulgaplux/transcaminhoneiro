@@ -1,0 +1,123 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+let router = new Router({
+  mode: 'history',
+  routes: [{
+      path: '/',
+      name: 'site-home',
+      component: () => import('./../Views/front/Home.vue')
+    },
+    {
+      path: '/entrar',
+      name: 'login',
+      component: () => import('./../Views/back/Login.vue')
+    },
+    {
+      path: '/registrar',
+      name: 'register',
+      component: () => import('./../Views/back/Register.vue')
+    },
+    {
+      path: '/sair',
+      name: 'logout',
+      component: () => import('./../Views/back/Logout.vue')
+    },
+    {
+      path: '/admin/inicio',
+      name: 'home-admin',
+      component: () => import('./../Views/front/HomeAdmin.vue'),
+    },
+    {
+      path: '/admin/perfil/:id?',
+      name: 'profile',
+      component: () => import('./../Views/front/Profile.vue')
+    },
+    {
+      path: '/admin/caminhao/:id?',
+      name: 'truck',
+      component: () => import('./../Views/front/Truck.vue')
+    },
+    {
+      path: '/admin/Tipo/caminhao/:id?',
+      name: 'Type-truck',
+      component: () => import('./../Views/front/TypeTruck.vue')
+    },
+    {
+      path: '/admin/empresa/:id?',
+      name: 'register-company',
+      component: () => import('./../Views/front/Company.vue')
+    },
+    {
+      path: '/admin/cotacao',
+      name: 'Prices',
+      component: () => import('./../Views/front/Price.vue')
+    },
+    {
+      path: '/admin/cliente',
+      name: 'Client',
+      component: () => import('./../Views/front/Client.vue')
+    },
+    {
+      path: '/admin/contratos',
+      name: 'Prices',
+      component: () => import('./../Views/front/Contract.vue')
+    },
+    {
+      path: '/admin/cotacao/cadastrar/:id?',
+      name: 'Price-Register',
+      component: () => import('./../Views/front/PriceRegister.vue'),
+    },
+    {
+      path: '/cotacao',
+      name: 'Prices-home',
+      component: () => import('./../Views/front/Pricespublic.vue')
+    },
+    {
+      path: '/cotacao/solicitar/:id?',
+      name: 'Prices-detail',
+      component: () => import('./../Views/front/Detail.vue')
+    },
+    {
+      path: '/solicitar/',
+      name: 'Reqquest-price',
+      component: () => import('./../Views/front/Request.vue')
+    },
+    // {
+    //   path: '/rota',
+    //   name: 'Distance',
+    //   component: () => import('./../Views/front/Distance.vue')
+    // },
+    // {
+    //   path: '/sobre',
+    //   name: 'about',
+    //   component: () => import('./../components/home/About.vue')
+    // },
+    {
+      path: '*',
+      name: '404',
+      component: () => import('./../components/Error/Error.vue')
+    }
+  ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!localStorage.getItem('token')) {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

@@ -1,0 +1,36 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  plugins: [
+    createPersistedState({
+      key: "bce072b8c4399e048f58a4b600adac3858174"
+    })
+  ],
+  strict: process.env.NODE_ENV !== 'production',
+  state: {
+    user: {},
+    // isLogged: !!localStorage.getItem('token'),
+  },
+  mutations: {
+    SET_CURRENT_USER (state, data) {
+      state.user = data
+    },
+  },
+  actions: {
+    logout ({ commit }) {
+      commit('SET_CURRENT_USER', {})
+    },
+
+    setCurrentUser({ commit }, obj) {
+      commit('SET_CURRENT_USER', obj)
+    },
+  },
+  getters: {
+    isLogged: state => !(Object.entries( state.user ).length === 0 && state.user.constructor === Object),
+    getCurrentUser: state => state.user,
+  }
+})
